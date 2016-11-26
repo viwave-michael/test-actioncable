@@ -27,10 +27,11 @@
       N/A
     <% end %>
 </p>
-<p>
-  <strong>Command: </strong>
-  <div class="command-action">N/A</div>
-</p>
+<% if logged_in? -%>
+  <%= content_tag :p, id: "device-#{current_device.id}-command" do -%>
+    <strong>Received Command: </strong><mark>N/A</mark>
+  <% end -%>
+<% end -%>
 
 <hr>
 <h1>All Devices</h1>

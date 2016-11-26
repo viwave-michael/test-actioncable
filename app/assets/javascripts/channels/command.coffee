@@ -7,6 +7,11 @@ App.command    = App.cable.subscriptions.create "CommandChannel",
 
   received: (data) ->
     console.log("[CommandChannel] received data: %o", data)
+    cmd = data["command"]
+    device = data["device"]
+    selector = "#device-" + device.id + "-command"
+    if ($(selector).length)
+      $(selector + " > mark").text(cmd.action)
 
 #  send: (cmd) ->
 #    @perform 'send', command: cmd

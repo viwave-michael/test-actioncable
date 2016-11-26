@@ -37,7 +37,8 @@ class CommandsController < ApplicationController
       end
     end
 
-    ActionCable.server.broadcast("CommandChannel-#{@command.device.id}", @command)
+    ActionCable.server.broadcast("CommandChannel-#{@command.device.id}",
+      { command: @command, device: @command.device })
     # ActionCable.server.broadcast("CommandChannel", @command)
   end
 
