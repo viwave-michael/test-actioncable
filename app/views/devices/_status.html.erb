@@ -1,0 +1,9 @@
+<%= content_tag :div, class: "device-status-#{device.id}", data: { url: "#{update_status_device_url(device, format: :js)}"} do -%>
+  <% if device.status == Device.ONLINE %>
+    <%= icon('toggle-on', class: 'fa-2x') %>
+  <% elsif device.status == Device.AWAY %>
+    <%= icon('clock-o', class: 'fa-2x') %>
+  <% else %>
+    <%= icon('toggle-off', class: 'fa-2x') %>
+  <% end %>
+<% end -%>

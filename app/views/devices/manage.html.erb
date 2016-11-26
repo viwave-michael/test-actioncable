@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<% if logged_in? %>
+  <%= link_to "logout #{current_device.name}", sessions_destroy_path, method: :delete %>
+  <%= content_tag :div, nil, id: 'my-device-id', data: { value: "#{current_device.id}" } %>
+<% else %>
+  <% @devices.each do |device| %>
+    <%= link_to device.name, sessions_create_path(device_id: device.id), method: :post %>
+  <% end %>
+<% end %>
+<hr>
+
+<h1>My Device</h1>
+<p>
+  <strong>Name: </strong>
+    <% if logged_in? %>
+      <%= current_device.name %>
+    <% else %>
+      N/A
+    <% end %>
+</p>
+<p>
+  <strong>Status: </strong>
+    <% if logged_in? %>
+      <%= render partial: 'status', locals: { device: current_device } %>
+    <% else %>
+      N/A
+    <% end %>
+</p>
+<p>
+  <strong>Command: </strong>
+  <div class="command-action">N/A</div>
+</p>
+
+<hr>
+<h1>All Devices</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Send Command</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @devices.each do |device| %>
+      <tr>
+        <td><%= device.name %></td>
+        <td><%= render partial: 'status', locals: { device: device } %></td>
+        <td>
+          <%= form_for :command, url: commands_path, remote: true, method: :post do |f| %>
+            <%= f.text_field :action, class: "device-#{device.id}-command", required: true %>
+            <%= f.hidden_field :device_id, value: device.id %>
+            <%= f.submit "Send" %>
+          <% end %>
+<!--           <%= tag :input, type: 'text', id: "command-#{device.id}-action" %>
+          <%= button_tag "Send", class: "device-command-sender" %> -->
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,3 @@
+console.log("update_status.js");
+$(".device-status-" + <%= @device.id %>).replaceWith(
+  "<%= j render(partial: 'status', locals: { device: @device }) %>");
